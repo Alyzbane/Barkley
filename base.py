@@ -7,20 +7,16 @@ from io import BytesIO
 from PIL import Image
 import streamlit as st
 
-from model import preload_all_models, classify_image, load_model
+from model import preload_all_models, classify_image, load_model, HF_MODELS
 from utils import resize_image, select_image
 from dataset import load_datasets, show_dataset_details
 
 class ImageClassification:
     def __init__(self):
         # Initialize available models
-        # self.models = {
-        #     "ResNet-50": "models/ResNet-50",
-        #     "ViT Base": "models/ViT-base-patch16",
-        #     "ConvNeXT": "models/ConvNeXT",
-        #     "Swin Base": "models/Swin-base-patch4-window7",
-        # }
-        self.models = preload_all_models() # Bug: Automatically going back to the introduction tab  when inferencing for the first time
+        self.models = HF_MODELS
+
+        # self.models = preload_all_models() # Bug: Automatically going back to the first tab  when inferencing for the first time
         self.tree_datasets = load_datasets()
 
         # Initialize session state
@@ -50,21 +46,14 @@ class ImageClassification:
             return image
         return None
 
-    def introduction_tab(self):
-        """Introduction tab content"""
-        st.title("Image Classification App")
-        st.markdown("""
-        ### Welcome to the Advanced Image Classification Dashboard
-        
-        Explore state-of-the-art image classification using transformer models:
-        
-        - Multiple pre-trained models
-        - Confidence threshold filtering
-        - Interactive image upload
-        - Detailed classification insights
-        """)
+    def about_tab(self):
+        """About tab content"""
+        st.title("Barkgods")
+        left_column, center_column, right_column = st.columns(3)
+        with center_column:
+            st.image("chudda.jpg", use_container_width=True)
 
-    @st.dialog("Image Classification Guide")
+    @st.dialog("Tree Bark Classification Guide")
     def show_help_dialog(self):
         """Display help dialog using st.dialog"""
         st.markdown("""
@@ -107,7 +96,7 @@ class ImageClassification:
                 "Confidence Threshold", 
                 min_value=0.0, 
                 max_value=1.0, 
-                value=0.5, 
+                value=0.9, 
                 step=0.01
             )
             
@@ -129,13 +118,6 @@ class ImageClassification:
             horizontal=True
         )
 
-        # Image Upload Notice
-        st.markdown("""
-        🔒 **Privacy Notice**: 
-        Your image will be processed to generate model features. 
-        We won't store the image or the features on our servers.
-        """)
-        
         image = None
 
         # Create a full-width container for input methods
@@ -161,7 +143,7 @@ class ImageClassification:
                             st.error("Invalid URL or unable to download image")
                             image = None
             elif upload_method == "Example Images":
-                image, _ = select_image(r'static/json/trees.json')
+                image, _ = select_image(r'static/json/tree_demos.json')
 
         # Image Classification Process
         if image:
@@ -172,8 +154,8 @@ class ImageClassification:
                     st.image(image, caption='Uploaded/Captured Image', use_container_width='true',)  # Limit width            
 
                 # Load selected model
-                model = self.models[selected_model] # This is for preloading
-                # model = load_model(selected_model)
+                # model = self.models[selected_model] # This is for preloading
+                model = load_model(selected_model)
             # Classify image
             with col2:
                 if model:
@@ -207,6 +189,22 @@ class ImageClassification:
                                 self.display_predictions(predictions[1:], datasets_by_scientific_name)
                     else:
                         st.warning("No predictions above the confidence threshold")
+        # Image Upload Notice
+        st.markdown("""
+        <style>
+        .privacy-notice {
+            font-weight: 300; /* Light font weight */
+            font-size: 14px; /* Optional: Adjust font size */
+            color: #555; /* Optional: A subtle gray tone */
+        }
+        </style>
+
+        <div class="privacy-notice">
+        🔒 Privacy Notice: <br>
+        Your image will be processed to generate model features. We won't store the image or the features on our servers.
+        </div>
+        """, unsafe_allow_html=True)
+
     
     def display_predictions(self, predictions, datasets_by_scientific_name, max_classes=9):
         """Display predictions in a two-column layout with info buttons linked to dataset details."""
@@ -295,7 +293,7 @@ class ImageClassification:
                 elif listTabs[i] == "Datasets":
                     self.datasets_tab()
                 elif listTabs[i] == "About":
-                    self.introduction_tab()
+                    self.about_tab()
             
         # Sidebar content based on the active tab
         if st.session_state.get("active_tab") == "Inference":

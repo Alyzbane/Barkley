@@ -7,7 +7,7 @@ if __name__ == "__main__":
     st.set_page_config(
         page_title="Barkley",
         initial_sidebar_state="auto",
-        page_icon=":microscope:",
+        page_icon="🌴",
         layout="wide"
     )
     

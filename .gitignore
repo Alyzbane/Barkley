@@ -1,5 +1,5 @@
 # Or, if you only want to ignore images within static
-static/images/
+#static/images/
 
 # Ignore model files
 models/
