@@ -7,6 +7,3 @@ font = "sans serif"
 
 [server]
 enableStaticServing = true
-port = 8501
-enableCORS = false
-headless = false
