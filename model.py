@@ -24,7 +24,6 @@ def preload_all_models():
                 "image-classification",
                 model=model,
                 feature_extractor=feature_extractor,
-                device=0,
             )
 
             # Store the pipeline in the dictionary
@@ -58,7 +57,6 @@ def load_model(model_name):
             "image-classification", 
             model=model, 
             feature_extractor=feature_extractor,
-            device=0,
         )
         return classifier
     except Exception as e:
