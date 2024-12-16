@@ -9,18 +9,18 @@
     },
     "Mango 1": {
         "image_path": "3.png",
-        "scientific_name": "Mang55ifera indica"
+        "scientific_name": "Tabebuia"
     },
     "Mango 3": {
         "image_path": "4.png",
-        "scientific_name": "Mangi1fera indica"
+        "scientific_name": "Cananga odorata"
     },
     "Mango T2ree": {
         "image_path": "5.png",
-        "scientific_name": "Mang2ifera indica"
+        "scientific_name": "Roystonea regia"
     },
     "Mango T12ree": {
         "image_path": "6.png",
-        "scientific_name": "Mang3ifera indica"
+        "scientific_name": "Mangifera indica"
     }
 }
