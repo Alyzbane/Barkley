@@ -1,4 +1,3 @@
-import torch
 from transformers import AutoFeatureExtractor, AutoModelForImageClassification, pipeline
 import streamlit as st
 
@@ -12,9 +11,6 @@ def preload_all_models():
         "ConvNeXT": "models/ConvNeXT",
         "Swin Base": "models/Swin-base-patch4-window7",
     }
-
-    # Set device (0 for GPU, -1 for CPU)
-    device = 0 if torch.cuda.is_available() else -1
 
     # Dictionary to store pipelines
     model_pipelines = {}
@@ -30,7 +26,7 @@ def preload_all_models():
                 "image-classification",
                 model=model,
                 feature_extractor=feature_extractor,
-                device=device,
+                device=0,
             )
 
             # Store the pipeline in the dictionary
@@ -58,14 +54,13 @@ def load_model(model_name):
 
         feature_extractor = AutoFeatureExtractor.from_pretrained(model_id)
         model = AutoModelForImageClassification.from_pretrained(model_id)
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         # Create and return the classification pipeline
         classifier = pipeline(
             "image-classification", 
             model=model, 
             feature_extractor=feature_extractor,
-            device=device,
+            device=0,
         )
         return classifier
     except Exception as e:
