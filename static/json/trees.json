@@ -1,0 +1,26 @@
+{
+    "Royal Palm": {
+        "image_path": "1.png",
+        "scientific_name": "Roystonea regia"
+    },
+    "Mango Tree": {
+        "image_path": "2.png",
+        "scientific_name": "Mangifera indica"
+    },
+    "Mango 1": {
+        "image_path": "3.png",
+        "scientific_name": "Mang55ifera indica"
+    },
+    "Mango 3": {
+        "image_path": "4.png",
+        "scientific_name": "Mangi1fera indica"
+    },
+    "Mango T2ree": {
+        "image_path": "5.png",
+        "scientific_name": "Mang2ifera indica"
+    },
+    "Mango T12ree": {
+        "image_path": "6.png",
+        "scientific_name": "Mang3ifera indica"
+    }
+}

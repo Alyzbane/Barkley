@@ -1,0 +1,145 @@
+{
+  "items": [
+    {
+      "title": "Narra",
+      "image": {
+        "path": "narra.jpg",
+        "alt": "Narra"
+      },
+      "meta": {
+        "scientific_name": "Pterocarpus indicus",
+        "common_names": [
+          "Narra",
+          "Amboyna"
+        ]
+      },
+      "characteristics": {
+        "color": [
+          "golden/pale yellow",
+          "reddish brown"
+        ],
+        "texture": [
+          "uneven medium",
+          "coarse"
+        ],
+        "geographic_location": "South Asia",
+        "height": "65-100",
+        "trunk_diameter": "3-5"
+      },
+      "description": "This wood has a seeming split personality. One the one hand there is the humble Narra, with good workability and dimensional stability (much like other members of the Pterocarpus genus). On the other hand there is the exotic and highly-prized burl wood known as Amboyna. Both come from the same tree (Pterocarpus indicus), though the resemblance between the two is virtually unrecognizable."
+    },
+    {
+      "title": "Royal Palm",
+      "image": {
+        "path": "royal_palm.jpg",
+        "alt": "Royal Palm"
+      },
+      "meta": {
+        "scientific_name": "Roystonea regia",
+        "common_names": [
+          "Royal palm",
+          "Cuban royal palm",
+          "Florida royal palm"
+        ]
+      },
+      "characteristics": {
+        "color": [
+          "grey-white",
+          "green"
+        ],
+        "texture": [
+          "smooth",
+          "cylindrical",
+          "glossy"
+        ],
+        "geographic_location": "Central America",
+        "height": "50-80",
+        "trunk_diameter": "24"
+      },
+      "description": "A large and attractive palm, it has been planted throughout the tropics and subtropics as an ornamental tree. Although it is sometimes called Roystonea elata, the conserved name Roystonea regia is now the correct name for the species. "
+    },
+    {
+      "title": "Mango",
+      "image": {
+        "path": "mango.jpg",
+        "alt": "Mango"
+      },
+      "meta": {
+        "scientific_name": "Mangifera indica",
+        "common_names": [
+          "Mango"
+        ]
+      },
+      "characteristics": {
+        "color": [
+          "light brown",
+          "dark brown"
+        ],
+        "texture": [
+          "cracked",
+          "thick",
+          "rough"
+        ],
+        "geographic_location": "Southeast Asia",
+        "height": "50-100",
+        "trunk_diameter": "3.7"
+      },
+      "description": "The mango tree originated in the Indo-Burma region, extending from eastern India and southern China across Southeast Asia. It was introduced to the Western world by the Portuguese in 1498 and later introduced to Brazil in 1700 and the United States in Florida in 1796."
+    },
+    {
+      "title": "Ilang - Ilang",
+      "image": {
+        "path": "ilang ilang.jpg",
+        "alt": "Ilang - Ilang"
+      },
+      "meta": {
+        "scientific_name": "Cananga odorata",
+        "common_names": [
+          "Ilang - ilang",
+          "ylang - ylang",
+          "Cananga Tree"
+        ]
+      },
+      "characteristics": {
+        "color": [
+          "whitish brown"
+        ],
+        "texture": [
+          "coarse"
+        ],
+        "geographic_location": "Southeast Asia",
+        "height": "131.234",
+        "trunk_diameter": "1.47638"
+      },
+      "description": "The flowers of the ilang-ilang tree are highly valued for their fragrant essential oil, which is widely used in perfumery and aromatherapy. The tree's timber, although not as commonly used as its flowers, can be utilized for light construction and carving. Ilang-ilang is also significant in traditional medicine, with its flowers and leaves used to treat various ailments such as fever, skin infections, and stress. The tree produces long, drooping clusters of yellow-green flowers that emit a distinct, sweet fragrance. Due to overharvesting for its essential oil, as well as habitat loss, ilang-ilang is becoming less common in its natural habitats across Southeast Asia."
+    },
+    {
+      "title": "Trumpet",
+      "image": {
+        "path": "trumpet.jpg",
+        "alt": "Trumpet"
+      },
+      "meta": {
+        "scientific_name": "Tabebuia",
+        "common_names": [
+          "Trumpet"
+        ]
+      },
+      "characteristics": {
+        "color": [
+          "gray",
+          "brown"
+        ],
+        "texture": [
+          "rough",
+          "deep grooves",
+          "raised ridges"
+        ],
+        "geographic_location": "Central America",
+        "height": "15-30",
+        "trunk_diameter": "472.4409"
+      },
+      "description": "Tabebuia is a genus of flowering plants in the family Bignoniaceae.Tabebuia consists almost entirely of trees, but a few are often large shrubs. A few species produce timber, but the genus is mostly known for those that are cultivated as flowering trees. Tabebuia species have twigs with soft pith which forms hollows within which ants live, defending the trees from other herbivores. The ants are attracted to the plants by special extra-floral nectar glands on at the apex of the petioles. Tabebuias have been called \"trumpet trees\", but this name is usually applied to other trees and has become a source of confusion and misidentification."
+    }
+  ]
+}
