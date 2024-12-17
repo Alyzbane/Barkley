@@ -6,8 +6,7 @@ This project aims to develop a practical and accurate deep learning-based system
 - [Installation](#installation)
 - [Usage](#usage)
 - [Models](#models)
-- [Contributing](#contributing)
-- [License](#license)
+- [References](#references)
 
 ## **Installation**
 
