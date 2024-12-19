@@ -1,5 +1,7 @@
 from transformers import AutoImageProcessor, AutoModelForImageClassification, pipeline
+import torch
 import streamlit as st
+
 HF_MODELS = {
     "ResNet-50": "alyzbane/resnet-50-finetuned-barkley",
     "ViT Base": "alyzbane/vit-base-patch16-224-finetuned-barkley",
@@ -34,7 +36,7 @@ def preload_all_models():
     return model_pipelines
 
 # Caching the model loading process
-@st.cache_resource(show_spinner="Loading model...")
+@st.cache_resource(show_spinner=False)
 def load_model(model_name):
     """Load and return the selected model with its feature extractor and pipeline."""
     # models = { # Localhost testing
@@ -57,6 +59,7 @@ def load_model(model_name):
             "image-classification", 
             model=model, 
             feature_extractor=feature_extractor,
+            device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         )
         return classifier
     except Exception as e:
