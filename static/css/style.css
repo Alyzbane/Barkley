@@ -1,0 +1,30 @@
+[data-testid="stSidebarCollapsedControl"] {
+    display: none
+}
+
+[data-testid="stSidebar"] {
+    display: none;
+}
+
+[data-testid="stFileUploaderFile"] {
+    display: none;
+}
+
+/* Ensure the tab container spans the full width */
+div[data-baseweb="tab-list"] {
+    justify-content: space-around;
+}
+
+/* Ensure the tab container button spans the full width */
+button[data-baseweb="tab"] {
+    width: 100%; 
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    padding: 10px 0;  
+}
+
+/* Ensure the tab container button spans the full width */
+button[data-baseweb="tab"] > div[data-testid="stMarkdownContainer"] > p {
+  font-size: 20px;
+}

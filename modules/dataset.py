@@ -1,12 +1,17 @@
 import os
-
-from utils import load_json
 import streamlit as st
+
+from .utils import load_json
+from .paths import STATIC_PATH_JSON, STATIC_PATH_IMAGE
 
 @st.cache_data
 def load_datasets():
     """Load dataset information from JSON and cache it."""
-    return load_json('static/json/datasets.json')['items']
+    return load_json(os.path.join(STATIC_PATH_JSON, 'datasets.json'))['items']
+
+@st.cache_data
+def get_image_path(path):
+    return os.path.join('static/images/datasets', path)
 
 st.cache_data
 @st.dialog("Dataset Details", width='large')
@@ -15,9 +20,8 @@ def show_dataset_details(dataset):
     col1, col2 = st.columns([1, 2])
 
     with col1:
-        st.image(os.path.join('static/images/datasets', dataset['image']['path']), 
-                 use_container_width=True)
-
+        st.image(os.path.join(STATIC_PATH_IMAGE, 'datasets', dataset['image']['path']), use_container_width=True)
+        
     with col2:
         st.markdown(f"### {dataset['title']}")
         st.markdown(f"**Scientific Name:** {dataset['meta']['scientific_name']}")
