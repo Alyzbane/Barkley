@@ -42,5 +42,3 @@ def show_dataset_details(dataset):
 
     with col5:
         st.metric("Trunk Diameter", dataset['characteristics']['trunk_diameter'])
-
-

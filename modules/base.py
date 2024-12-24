@@ -220,37 +220,6 @@ class ImageClassification:
         with st.expander("How to Use", icon="📘"):
             guidelines_classification()
     
-    def datasets_tab(self):
-        """Main function to display datasets in a grid layout."""
-        st.title("Model Datasets")
-
-        # Load cached datasets
-        dataset_template = self.tree_datasets
-        
-        # Prepare the Base64 encoded images and titles
-        image_paths = [f"data:image/jpeg;base64, {image_to_base64(get_image_path(dataset['image']['path']))}" for dataset in dataset_template]
-        titles = [dataset['title'] for dataset in dataset_template]
-        
-        # Display clickable images
-        clicked = clickable_images(
-            image_paths,
-            titles=titles,
-            div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
-            img_style={"margin": "5px", "height": "200px", "cursor": "pointer"},
-            key="datasets_clickable_images"
-        )
-    
-        # Show dialog for the clicked image
-        if 'last_clicked' not in st.session_state:
-            st.session_state.last_clicked = -1
-            # st.toast(r"⚠️ Initialized state 'last_clicked'")
-
-        if clicked != st.session_state.last_clicked and clicked > -1:
-            st.session_state.last_clicked = clicked
-            # st.toast(f"⚠️ Clicked:  {clicked}")
-            selected_dataset = dataset_template[clicked]
-            show_dataset_details(selected_dataset)
-
     def run(self):
         """Main app runner with sidebar control."""
         with open(os.path.join(STATIC_PATH_CSS, "style.css")) as f:
