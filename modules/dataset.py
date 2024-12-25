@@ -43,4 +43,24 @@ def show_dataset_details(dataset):
     with col5:
         st.metric("Trunk Diameter", dataset['characteristics']['trunk_diameter'])
 
+def datasets_tab():
+    """Main function to display datasets in a grid layout."""
+    st.title("Model Datasets")
 
+    # Load cached datasets
+    dataset_template = st.session_state.tree_datasets
+
+    # Create columns for dataset display
+    cols = st.columns(5)  # Use 3 columns for better layout
+
+    # Display dataset cards
+    for i, dataset in enumerate(dataset_template):
+        with cols[i % 5]:  # Distribute datasets across columns
+            with st.container():
+                # Display image
+                st.image(os.path.join('static/images/datasets', dataset['image']['path']), 
+                        use_container_width=True)
+
+                # Show dialog on button click
+                if st.button(f"**{dataset['title']}**", key=f"dialog_btn_{i}", use_container_width=True):
+                    show_dataset_details(dataset)

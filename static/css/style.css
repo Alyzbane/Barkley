@@ -1,3 +1,68 @@
+/* Default light mode */
+:root {
+    --text-color-light: #1E1E1E;
+    --text-color-dark: #FFFFFF;
+    --background-light: #FFFFFF;
+    --background-dark: #2E2E2E;
+    --box-shadow-light: rgba(0, 0, 0, 0.1);
+    --box-shadow-dark: rgba(255, 255, 255, 0.1);
+    --card-background-light: #FFFFFF;
+    --card-background-dark: #2E2E2E;
+    --card-border-light: #E0E0E0;
+    --card-border-dark: #333333;
+}
+
+/* Light mode theme */
+[data-theme="light"] {
+    --text-color: var(--text-color-light);
+    --background-color: var(--background-light);
+    --box-shadow-color: var(--box-shadow-light);
+    --card-background: var(--card-background-light);
+    --card-border: var(--card-border-light);
+}
+
+/* Dark mode theme */
+[data-theme="dark"] {
+    --text-color: var(--text-color-dark);
+    --background-color: var(--background-dark);
+    --box-shadow-color: var(--box-shadow-dark);
+    --card-background: var(--card-background-dark);
+    --card-border: var(--card-border-dark);
+}
+/* Card styling */
+.card {
+    background-color: #ffffff00;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.2s ease-in-out;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(255, 196, 129, 0.671);
+}
+.card img {
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+.card h3 {
+    font-size: 1.25rem;
+}
+.card p {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+[data-testid="stHeaderActionElements"] {
+    display: none;
+}
+
+
 [data-testid="stSidebarCollapsedControl"] {
     display: none
 }

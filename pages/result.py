@@ -1,5 +1,5 @@
 import streamlit as st
-from modules.base import clear_session_state
+from modules.inference import clear_session_state
 from modules.dataset import show_dataset_details
 
 ###################################################
