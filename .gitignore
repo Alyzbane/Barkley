@@ -4,6 +4,9 @@
 # Ignore model files
 models/
 
+# Ignore secret files
+.streamlit/secrets.toml
+
 # Ignore Python bytecode
 __pycache__/*.pyc
 *.pyc
