@@ -12,8 +12,8 @@ This project aims to develop a practical and accurate deep learning-based system
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/Alyzbane/Barkley.git
+   cd Barkley
 2. **Create a virtual environment:**
    ```bash
    python -m venv env
