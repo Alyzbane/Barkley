@@ -1,5 +1,6 @@
 /* Default light mode */
 :root {
+    /* Theme colors */
     --text-color-light: #1E1E1E;
     --text-color-dark: #FFFFFF;
     --background-light: #FFFFFF;
@@ -7,7 +8,7 @@
     --box-shadow-light: rgba(0, 0, 0, 0.1);
     --box-shadow-dark: rgba(255, 255, 255, 0.1);
     --card-background-light: #FFFFFF;
-    --card-background-dark: #2E2E2E;
+    --card-background-dark: #bbbbbb;
     --card-border-light: #E0E0E0;
     --card-border-dark: #333333;
 }
@@ -29,32 +30,8 @@
     --card-background: var(--card-background-dark);
     --card-border: var(--card-border-dark);
 }
-/* Card styling */
-.card {
-    background-color: #ffffff00;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    padding: 20px;
-    transition: transform 0.2s ease-in-out;
-}
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 10px rgba(255, 196, 129, 0.671);
-}
-.card img {
-    border-radius: 50%;
-    margin-bottom: 15px;
-}
-.card h3 {
-    font-size: 1.25rem;
-}
-.card p {
-    font-size: 1rem;
+
+p, h1, h2, h3, h4 {
     color: var(--text-color);
 }
 
@@ -62,6 +39,9 @@
     display: none;
 }
 
+[data-testid="stDecoration"] {
+        display: none;
+} 
 
 [data-testid="stSidebarCollapsedControl"] {
     display: none
@@ -92,4 +72,13 @@ button[data-baseweb="tab"] {
 /* Ensure the tab container button spans the full width */
 button[data-baseweb="tab"] > div[data-testid="stMarkdownContainer"] > p {
   font-size: 20px;
+}
+
+h1 {
+    background: linear-gradient(to right, #166534, #1e40af);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2.5em;
+    font-weight: bold;
+    padding: 0;
 }

@@ -8,7 +8,7 @@ import streamlit as st
 from .model import classify_image, load_model, HF_MODELS
 from .utils import resize_image, select_image, convert_to_jpeg, __process_uploaded_file
 from .paths import STATIC_PATH_IMAGE, STATIC_PATH_JSON
-from .guide import display_guidelines 
+from views.guide import display_guidelines 
 
 ####################################################################
 ##          Clear specific keys in session state                  ##
@@ -20,6 +20,12 @@ def clear_session_state():
         if key in st.session_state:
             del st.session_state[key]
 
+def instructions_expander():
+    """Display instructions with an expander."""
+    st.divider()
+    with st.expander(":scroll: Guidelines", expanded=False):
+        display_guidelines()
+
 def handle_advanced_settings(col3):
     """Handle advanced settings UI and logic"""
     with col3:
@@ -27,33 +33,37 @@ def handle_advanced_settings(col3):
             advanced_settings = st.toggle("Advanced Settings", key='toggle_settings', value=True)
     
     if advanced_settings:
-        with col3.expander("⚙️ Model Configuration", expanded=True):
-            adv_set1, adv_set2 = st.columns(2)
-            with adv_set1:
-                selected_model = st.selectbox(
-                    "Select Model", 
-                    list(HF_MODELS.keys()),
-                    help="Select the model you want to use for predictions."
-                )
-            with adv_set2:
-                top_k = st.selectbox(
-                    "Top Predictions",
-                    [3, 5, 10],
-                    help="Choose the number of top predictions to display."
+        with col3:
+            with st.expander("⚙️ Model Configuration", expanded=True):
+                adv_set1, adv_set2 = st.columns(2)
+                with adv_set1:
+                    selected_model = st.selectbox(
+                        "Select Model", 
+                        list(HF_MODELS.keys()),
+                        help="Select the model you want to use for predictions."
+                    )
+                with adv_set2:
+                    top_k = st.selectbox(
+                        "Top Predictions",
+                        [3, 5, 10],
+                        help="Choose the number of top predictions to display."
+                    )
+
+                confidence_threshold = st.slider(
+                    "Confidence Threshold", 
+                    min_value=0.0, 
+                    max_value=1.0, 
+                    value=0.9, 
+                    step=0.01,
+                    help="Higher values mean the model will return more confident predictions."
                 )
 
-            confidence_threshold = st.slider(
-                "Confidence Threshold", 
-                min_value=0.0, 
-                max_value=1.0, 
-                value=0.9, 
-                step=0.01,
-                help="Higher values mean the model will return more confident predictions."
-            )
-            
-            st.session_state.current_model = selected_model
-            st.session_state.confidence_threshold = confidence_threshold
-            st.session_state.top_k = top_k
+                
+                st.session_state.current_model = selected_model
+                st.session_state.confidence_threshold = confidence_threshold
+                st.session_state.top_k = top_k
+        
+            instructions_expander()
 
 def handle_image_input(col1, col2, placeholder_image):
     """Handle image input methods and processing"""
@@ -68,7 +78,7 @@ def handle_image_input(col1, col2, placeholder_image):
     if not st.session_state.get('show_results', False):
         with col1.container():
             if upload_method == "Upload Image":
-                uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'jpeg', 'png'])
+                uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'jpeg', 'png', 'webp'])
                 st.session_state.image = __process_uploaded_file(uploaded_file)
             
             elif upload_method == "Camera Capture":
@@ -109,7 +119,7 @@ def display_image_and_classify(col2, placeholder_image):
     if 'image' in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
         with col2.container(border=True):
-            st.image(image, caption='Uploaded/Captured Image', use_container_width=True, output_format='JPEG')
+            st.image(image, caption='Uploaded/Captured Image', use_container_width=True)
             
             if "classify_enabled" not in st.session_state:
                 st.session_state.classify_enabled = False
@@ -160,25 +170,13 @@ def display_error_dialog():
         input_error_dialog()
         st.session_state.show_error_dialog = False
 
-def display_privacy_notice():
-    """Display privacy notice with a button to show guidelines."""
-    st.divider()
-    c1, c2, c3 = st.columns([1, 2, 1])
-    # Button to display guidelines
-    with c2:
-        with st.expander(":scroll: Guidelines", expanded=False):
-                display_guidelines()
-
 def inference_tab():
     """Main inference tab function"""
 
-    placeholder_image = Image.open(os.path.join(STATIC_PATH_IMAGE, 'preview_placeholder.jpg')).convert('RGB')
+    placeholder_image = Image.open(os.path.join(STATIC_PATH_IMAGE, 'preview_placeholder.webp')).convert('RGB')
     
     col1, col2, col3 = st.columns([2, 1, 2])
 
     handle_advanced_settings(col3)
     handle_image_input(col1, col2, placeholder_image)
     display_error_dialog()
-    
-    display_privacy_notice()
-    

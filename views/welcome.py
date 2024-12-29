@@ -16,12 +16,7 @@ def show_welcome_view():
             # Title with custom styling
             st.markdown("""
                 <h1 style='
-                    background: linear-gradient(to right, #166534, #1e40af);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                    font-size: 2.5em;
-                    font-weight: bold;
-                    margin-bottom: 1em;'>
+;'>
                     Barkley: Tree Bark Image Classification
                 </h1>
             """, unsafe_allow_html=True)
@@ -69,7 +64,7 @@ def show_welcome_view():
         
         with col2:
             # Load and display the image with some styling
-            welcome_image = Image.open(os.path.join(STATIC_PATH_IMAGE, 'preview_placeholder.jpg'))
+            welcome_image = Image.open(os.path.join(STATIC_PATH_IMAGE, 'preview_placeholder.webp'))
             st.image(
                 welcome_image,
                 use_container_width=True,

@@ -4,43 +4,46 @@ import streamlit as st
 
 from modules.paths import STATIC_PATH_IMAGE
 from modules.utils import image_to_base64
+from modules.paths import STATIC_PATH_CSS
 
 def team_tab():
-    # Sample team data with GitHub links
     team_members = [
         {
             "name": "Prince Daniel D. Mampusti",
-            "role": "Full Stack ML Engineer",
+            "role": "Full Stack Developer",
             "image": "https://avatars.githubusercontent.com/u/75820221?s=400&u=55cf39b5f2cbfc565370a14303c6c12620ca6b6e&v=4", 
             "github": "https://github.com/alyzbane" 
         },
         {
             "name": "Dhan Eldrin Mabilangan",
             "role": "Data Analyst",
-            "image": "https://static.wikia.nocookie.net/meme/images/9/9f/Dolan.png/revision/latest?cb=20160118072622", 
+            "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png?20200912122019", 
             "github": "https://github.com/dhan-eldrin"  
         },
         {
             "name": "Reymer Jr. Unciano",
             "role": "Data Curator",
-            "image": "https://pbs.twimg.com/profile_images/1844554652207153152/gMB26r0n_400x400.jpg",  
+            "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png?20200912122019",  
             "github": "https://github.com/reymer-jr"  
         },
         {
             "name": "Tobias Alren",
             "role": "Data Collector",
-            "image": "https://via.placeholder.com/150",  
+            "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png?20200912122019",  
             "github": "https://github.com/tobias-alren" 
         }
     ]
 
-    # Title
-    st.title("Meet Our Team")
+    st.markdown(f"""
+                <div>
+                    <h1 style="font-family: Arial, sans-serif;">Meet the team</h1>
+                </div>
+                """, unsafe_allow_html=True)
 
-    # Modern team layout using Streamlit columns
     cols = st.columns(len(team_members))
 
-
+    with open(os.path.join(STATIC_PATH_CSS, "card.css")) as f:
+        st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
 
 #    theme = st_theme() # buggy returning None not subscriptable
 #    base_theme = theme.get("base", "default_value")

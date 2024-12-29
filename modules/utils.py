@@ -7,7 +7,7 @@ import streamlit as st
 
 from PIL import Image
 from streamlit_image_select import image_select
-from .paths import STATIC_PATH_IMAGE, STATIC_PATH_CSS, STATIC_PATH_SVG
+from .paths import STATIC_PATH_IMAGE, STATIC_PATH_CSS
 
 #################################################
 ##             SVG files loader
@@ -38,7 +38,7 @@ def resize_image(image, size):
 def convert_to_jpeg(image):
     # Convert image to JPEG format
     buffer = io.BytesIO()
-    image.save(buffer, format="JPEG", quality=90)
+    image.save(buffer, format="JPEG", quality=80)
     buffer.seek(0)
     jpeg_image = Image.open(buffer)  # Reload the image as a PIL object
     return jpeg_image
@@ -88,6 +88,8 @@ def select_image(path):
 #################################################
 def image_to_base64(image_path: str):
     """Convert an image file to base64 format."""
+    if not os.path.exists(image_path):
+        raise FileNotFoundError(f"Image file not found: {image_path}")
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode("utf-8")
 

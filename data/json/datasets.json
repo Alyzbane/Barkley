@@ -3,7 +3,7 @@
     {
       "title": "Narra",
       "image": {
-        "path": "narra.jpg",
+        "path": "narra.webp",
         "alt": "Narra"
       },
       "meta": {
@@ -31,7 +31,7 @@
     {
       "title": "Royal Palm",
       "image": {
-        "path": "royal_palm.jpg",
+        "path": "royal_palm.webp",
         "alt": "Royal Palm"
       },
       "meta": {
@@ -61,7 +61,7 @@
     {
       "title": "Mango",
       "image": {
-        "path": "mango.jpg",
+        "path": "mango.webp",
         "alt": "Mango"
       },
       "meta": {
@@ -88,7 +88,7 @@
     {
       "title": "Ilang-ilang",
       "image": {
-        "path": "ilang ilang.jpg",
+        "path": "ilang ilang.webp",
         "alt": "Ilang-Ilang"
       },
       "meta": {
@@ -115,7 +115,7 @@
     {
       "title": "Trumpet",
       "image": {
-        "path": "trumpet.jpg",
+        "path": "trumpet.webp",
         "alt": "Trumpet"
       },
       "meta": {

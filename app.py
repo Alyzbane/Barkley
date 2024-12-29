@@ -1,5 +1,4 @@
 import os
-from datetime import datetime, timedelta, timezone
 import streamlit as st
 from streamlit_option_menu import option_menu
 
@@ -36,7 +35,6 @@ def main():
      # Initialize session state
     init_session_state()
 
-   
     with open(os.path.join(STATIC_PATH_CSS, "style.css")) as f:
         st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
 
@@ -46,7 +44,8 @@ def main():
         # Create option menu without displaying icons
         selected = option_menu(
             menu_title=None,
-            options=["Home", "Datasets", "About"],
+            options=["Home", "Datasets", "Team"],
+            icons=["house-fill", "tree-fill",  "people-fill"],
             menu_icon="cast",
             default_index=0,
             orientation="horizontal",
@@ -66,11 +65,11 @@ def main():
                     "font-weight": "bold",
                 },
                 "nav-link-selected": {
-                    "color": "#f63366",  # Highlight color for text and icon
+                    "color": "#166534",  # Highlight color for text and icon
                     "font-weight": "bold",  # Highlight color for text and icon
 
                 },
-                "icon": {"display": "none"}  # Hide the icons
+                # "icon": {"display": "none"}  # Hide the icons
             }
         )
         
@@ -79,7 +78,7 @@ def main():
             inference_tab()
         elif selected == "Datasets":
             datasets_tab()
-        elif selected == "About":
+        elif selected == "Team":
             team_tab()
 
 if __name__ == "__main__":
