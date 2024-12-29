@@ -13,9 +13,9 @@ def display_guidelines():
         st.divider()
         # Layout: Singular, clear object
         for correct, wrong, correct_caption, wrong_caption in [
-                ("correct_01.jpg", "wrong_01.jpg", "Singular and clear tree bark", "Blurry image"),
-                ("correct_02.jpg", "wrong_02.jpg", "Minimal background noise", "Cluttered scenes"),
-                ("correct_03.jpg", "wrong_03.jpg", "Sharp focus", "Small or distant tree bark"),
+                ("correct_01.png", "wrong_01.png", "Singular and clear tree bark", "Blurry image"),
+                ("correct_02.png", "wrong_02.png", "Minimal background noise", "Cluttered scenes"),
+                ("correct_03.png", "wrong_03.png", "Sharp focus", "Small or distant tree bark"),
         ]:
                 # Each tip in a separate container
                 with st.container(border=True):
