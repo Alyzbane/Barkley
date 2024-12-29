@@ -25,28 +25,43 @@
     margin: 0;
     font-size: 0.9em;
     color: #4b5563;
+    font-style: italic;
 }
 
 /* Confidence bar styling */
+.confidence-container {
+    margin: 12px 0;
+}
 .confidence-bar {
-    background-color: #e5e7eb;
-    border-radius: 10px;
-    margin: 15px 0;
+    background-color: #f3f4f6;
+    border-radius: 9px;
     position: relative;
     overflow: hidden;
-    height: 20px;
+    height: 8px;  /* Thinner bar */
+    margin: 0 auto;  /* Centers the bar horizontally */
+    display: block;
 }
 
 .confidence-fill {
-    background: linear-gradient(90deg, #16a34a, #1d4ed8);
+    background: linear-gradient(90deg, #22c55e, #3b82f6);
     height: 100%;
-    line-height: 20px;
-    text-align: center;
-    color: white;
-    font-size: 0.8em;
     transition: width 0.3s ease;
+    border-radius: 100px;
 }
 
+.confidence-label {
+    font-weight: 500;
+    font-size: 14px;
+    color: #374151;
+    margin-bottom: 4px;
+}
+
+.confidence-percentage {
+    text-align: right;
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 4px;
+}
 /* Characteristic card styling */
 .characteristic-card {
     display: flex;
@@ -85,4 +100,12 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+}
+
+.stMainBlockContainer {
+    padding: 2rem 6rem 10rem;
+}
+
+.stAppHeader {
+    display: none;
 }

@@ -4,7 +4,7 @@ from streamlit_option_menu import option_menu
 
 from modules.inference import inference_tab
 from modules.dataset import datasets_tab
-from modules.team import team_tab
+from modules.about import about_tab
 from modules.paths import STATIC_PATH_CSS
 
 from views.welcome import show_welcome_view
@@ -44,8 +44,8 @@ def main():
         # Create option menu without displaying icons
         selected = option_menu(
             menu_title=None,
-            options=["Home", "Datasets", "Team"],
-            icons=["house-fill", "tree-fill",  "people-fill"],
+            options=["Home", "Datasets", "About"],
+            icons=["house-fill", "tree-fill",  "info-circle-fill"],
             menu_icon="cast",
             default_index=0,
             orientation="horizontal",
@@ -78,8 +78,8 @@ def main():
             inference_tab()
         elif selected == "Datasets":
             datasets_tab()
-        elif selected == "Team":
-            team_tab()
+        elif selected == "About":
+            about_tab()
 
 if __name__ == "__main__":
     main()

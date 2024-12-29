@@ -28,6 +28,7 @@ def show_welcome_view():
                     line-height: 1.6;
                     color: var(--text-color);
                     margin-bottom: 1.5em;'>
+                    Explore the fascinating world of trees through their unique bark patterns. Whether you're a botanist, researcher, or nature enthusiast, Barkley helps you identify tree species with just a photo. 
                     Nestled within the serene surroundings of the First Asia Institute of 
                     Technology and Humanities Colleges, our project sheds light on the 
                     distinctive barks of five indigenous species prevalent in this locale.
@@ -56,7 +57,7 @@ def show_welcome_view():
             
 
             # Confirmation checkbox and button
-            understand = st.checkbox("I understand the purpose of this application")
+            understand = st.checkbox(label="**I understand the purpose of this application**")
 
             if understand:
                     st.session_state.welcome_shown = True

@@ -22,7 +22,6 @@ def clear_session_state():
 
 def instructions_expander():
     """Display instructions with an expander."""
-    st.divider()
     with st.expander(":scroll: Guidelines", expanded=False):
         display_guidelines()
 
@@ -172,6 +171,13 @@ def display_error_dialog():
 
 def inference_tab():
     """Main inference tab function"""
+    st.markdown("""
+    <div style="margin-bottom: 1em;">
+        <p style="text-align: center;">Explore the fascinating world of trees through their unique <i>bark</i> patterns. 
+           Whether you're a botanist, researcher, or nature enthusiast, Barkley helps you 
+           identify tree species with just a photo 📸.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
     placeholder_image = Image.open(os.path.join(STATIC_PATH_IMAGE, 'preview_placeholder.jpg')).convert('RGB')
     

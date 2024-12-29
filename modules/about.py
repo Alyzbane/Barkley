@@ -6,6 +6,7 @@ from modules.paths import STATIC_PATH_IMAGE
 from modules.utils import image_to_base64
 from modules.paths import STATIC_PATH_CSS
 
+@st.cache_data
 def team_tab():
     team_members = [
         {
@@ -66,3 +67,8 @@ def team_tab():
                 <p style="color: ; text-align: center;">{member['role']}</p>
             </div>
             """, unsafe_allow_html=True)
+
+def about_tab():
+    # Model Performane Overview?
+    # Charts
+    team_tab()

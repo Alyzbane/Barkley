@@ -30,11 +30,13 @@ def view_datasets(dataset, confidence=None):
         # Show confidence in Tab 2 if provided
         if confidence is not None:
             st.markdown(f"""
+            <div class='confidence-container'>
+                <div class='confidence-label'>Confidence:</div>
                 <div class='confidence-bar'>
-                    <div class='confidence-fill' style='width: {confidence*100}%;'>
-                        Confidence: {confidence:.1%}
-                    </div>
+                    <div class='confidence-fill' style='width: {confidence*100}%;'></div>
                 </div>
+                <div class='confidence-percentage'>{confidence:.1%}</div>
+            </div>
             """, unsafe_allow_html=True)
     
     with col2:

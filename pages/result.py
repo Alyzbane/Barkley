@@ -22,7 +22,6 @@ def show_results_view():
 
     with open(os.path.join(STATIC_PATH_CSS, "result.css")) as f:
         st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
-
     with image_col:
         st.image(image, use_container_width=True)
     
