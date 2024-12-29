@@ -1,8 +1,7 @@
 import streamlit as st
 import os
 
-from .paths import STATIC_PATH_IMAGE, STATIC_PATH_CSS
-
+from modules.paths import STATIC_PATH_IMAGE, STATIC_PATH_CSS
 
 def display_guidelines():
         """Display help dialog with formatted layout."""
@@ -14,9 +13,9 @@ def display_guidelines():
         st.divider()
         # Layout: Singular, clear object
         for correct, wrong, correct_caption, wrong_caption in [
-                ("correct_01.png", "wrong_01.png", "Singular and clear tree bark", "Blurry image"),
-                ("correct_02.png", "wrong_02.png", "Minimal background noise", "Cluttered scenes"),
-                ("correct_03.png", "wrong_03.png", "Sharp focus", "Small or distant tree bark"),
+                ("correct_01.webp", "wrong_01.webp", "Singular and clear tree bark", "Blurry image"),
+                ("correct_02.webp", "wrong_02.webp", "Minimal background noise", "Cluttered scenes"),
+                ("correct_03.webp", "wrong_03.webp", "Sharp focus", "Small or distant tree bark"),
         ]:
                 # Each tip in a separate container
                 with st.container(border=True):
