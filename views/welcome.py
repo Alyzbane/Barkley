@@ -64,7 +64,7 @@ def show_welcome_view():
         
         with col2:
             # Load and display the image with some styling
-            welcome_image = Image.open(os.path.join(STATIC_PATH_IMAGE, 'preview_placeholder.webp'))
+            welcome_image = Image.open(os.path.join(STATIC_PATH_IMAGE, 'preview_placeholder.jpg'))
             st.image(
                 welcome_image,
                 use_container_width=True,

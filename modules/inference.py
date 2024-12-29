@@ -173,7 +173,7 @@ def display_error_dialog():
 def inference_tab():
     """Main inference tab function"""
 
-    placeholder_image = Image.open(os.path.join(STATIC_PATH_IMAGE, 'preview_placeholder.webp')).convert('RGB')
+    placeholder_image = Image.open(os.path.join(STATIC_PATH_IMAGE, 'preview_placeholder.jpg')).convert('RGB')
     
     col1, col2, col3 = st.columns([2, 1, 2])
 
