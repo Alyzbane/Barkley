@@ -3,6 +3,7 @@
 
 This project aims to develop a practical and accurate deep learning-based system for identifying tree species from images of tree bark. The system leverages various deep learning architectures, including CNNs and Vision Transformers, to classify tree species based on bark images.
 
+![Barkley Demo](/static/images/barkley.jpg)
 ## **Table of Contents**
 - [Installation](#installation)
 - [Usage](#usage)
