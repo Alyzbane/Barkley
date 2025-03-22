@@ -3,7 +3,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 
 from modules.inference import inference_tab
-from modules.dataset import datasets_tab
+from modules.dataset import datasets_tab, load_datasets
 from modules.about import about_tab
 from modules.paths import STATIC_PATH_CSS
 
@@ -17,9 +17,11 @@ def init_session_state():
         st.session_state.confidence_threshold = 0.5
     if 'top_k' not in st.session_state:
         st.session_state.top_k = 5
-    if 'tree_datasets' not in st.session_state:
-        from modules.dataset import load_datasets
-        st.session_state.tree_datasets = load_datasets()
+    if 'tree_datasets' not in st.session_state or 'scientific_to_common' not in st.session_state:
+        items, scientific_to_common, common_to_scientific = load_datasets()
+        st.session_state.tree_datasets = items
+        st.session_state.scientific_to_common = scientific_to_common
+        st.session_state.common_to_scientific = common_to_scientific
     if 'welcome_shown' not in st.session_state:
         st.session_state.welcome_shown = False
 
@@ -34,7 +36,6 @@ def main():
 
      # Initialize session state
     init_session_state()
-
     with open(os.path.join(STATIC_PATH_CSS, "style.css")) as f:
         st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
 

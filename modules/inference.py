@@ -10,6 +10,8 @@ from .utils import resize_image, select_image, convert_to_jpeg, __process_upload
 from .paths import STATIC_PATH_IMAGE, STATIC_PATH_JSON
 from views.guide import display_guidelines 
 
+NUM_CLASSES = 13
+
 ####################################################################
 ##          Clear specific keys in session state                  ##
 ####################################################################
@@ -27,42 +29,38 @@ def instructions_expander():
 
 def handle_advanced_settings(col3):
     """Handle advanced settings UI and logic"""
-    with col3:
-        with st.container(border=True):
-            advanced_settings = st.toggle("Advanced Settings", key='toggle_settings', value=True)
+    # with col3:
+    #     with st.container(border=True):
+    #         advanced_settings = st.toggle("Advanced Settings", key='toggle_settings', value=True)
     
-    if advanced_settings:
-        with col3:
-            with st.expander("⚙️ Model Configuration", expanded=True):
-                adv_set1, adv_set2 = st.columns(2)
-                with adv_set1:
-                    selected_model = st.selectbox(
-                        "Select Model", 
-                        list(HF_MODELS.keys()),
-                        help="Select the model you want to use for predictions."
-                    )
-                with adv_set2:
-                    top_k = st.selectbox(
-                        "Top Predictions",
-                        [3, 5, 10],
-                        help="Choose the number of top predictions to display."
-                    )
+    # if advanced_settings:
+    with st.sidebar:
+        st.write("⚙️ Model Configuration")
+        selected_model = st.selectbox(
+            "Select Model", 
+            list(HF_MODELS.keys()),
+            help="Select the model you want to use for predictions."
+        )
+        top_k = st.slider(
+            "Top Predictions",
+            1, NUM_CLASSES, 1,
+            help="Choose the number of top predictions to display."
+        )
 
-                confidence_threshold = st.slider(
-                    "Confidence Threshold", 
-                    min_value=0.0, 
-                    max_value=1.0, 
-                    value=0.9, 
-                    step=0.01,
-                    help="Higher values mean the model will return more confident predictions."
-                )
+        confidence_threshold = st.slider(
+            "Confidence Threshold", 
+            min_value=0.0, 
+            max_value=1.0, 
+            value=0.9, 
+            step=0.01,
+            help="Higher values mean the model will return more confident predictions."
+        )
 
-                
-                st.session_state.current_model = selected_model
-                st.session_state.confidence_threshold = confidence_threshold
-                st.session_state.top_k = top_k
-        
-            instructions_expander()
+        st.session_state.current_model = selected_model
+        st.session_state.confidence_threshold = confidence_threshold
+        st.session_state.top_k = top_k
+    with col3:
+        instructions_expander()
 
 def handle_image_input(col1, col2, placeholder_image):
     """Handle image input methods and processing"""

@@ -3,22 +3,15 @@ import torch
 import streamlit as st
 
 HF_MODELS = {
-    "Swin B/P4-W7": "alyzbane/swin-base-patch4-window7-224-finetuned-barkley",
-    "ViT B/P16": "alyzbane/vit-base-patch16-224-finetuned-barkley",
-    "ResNet-50": "alyzbane/resnet-50-finetuned-FBark-5",
-    "ConvNeXT": "alyzbane/convnext-tiny-224-finetuned-barkley",
+    "ResNet-50": "alyzbane/2025-02-05-21-58-41-resnet-50",
+    "Swin B/P4-W7": "alyzbane/2025-02-05-15-01-55-swin-base-patch4-window7-224",
+    "ViT B/P16": "alyzbane/2025-02-05-14-22-36-vit-base-patch16-224",
+    "ConvNeXT": "alyzbane/2025-02-10-08-48-20-convnextv2-tiny-1k-224",
 }
 # Caching the model loading process
 @st.cache_resource(show_spinner=False)
 def load_model(model_name):
     """Load and return the selected model with its feature extractor and pipeline."""
-    # models = { # Localhost testing
-    #     "ResNet-50": "models/ResNet-50",
-    #     "ViT Base": "models/ViT-base-patch16",
-    #     "ConvNeXT": "models/ConvNeXT",
-    #     "Swin Base": "models/Swin-base-patch4-window7",
-    # }
-
     try:
         model_id = HF_MODELS.get(model_name)
         if not model_id:
@@ -43,34 +36,19 @@ def classify_image(image, model, confidence_threshold, top_k):
     try:
         # Perform classification
         predictions = model(image, top_k=top_k)
-
-        # Define the mapping of scientific names to common names
-        name_mapping = {
-            "Roystonea regia": "Royal Palm",
-            "Pterocarpus indicus": "Narra",
-            "Tabebuia": "Trumpet",
-            "Mangifera indica": "Mango",
-            "Iinstia bijuga": "Ipil"
-        }
-
+        name_mapping = st.session_state.common_to_scientific
         # Filter predictions based on confidence threshold and add common names
         filtered_predictions = []
         for pred in predictions:
             if pred['score'] >= confidence_threshold:
-                # Update scientific name if it matches "Iinstia bijuga"
-                scientific_name = pred['label']
-                if scientific_name == "Iinstia bijuga":
-                    scientific_name = "Cananga odorata"
-                
+                common_name = pred['label']
                 # Get the common name from the mapping
-                common_name = name_mapping.get(pred['label'], "Unknown")
+                scientific_name = name_mapping.get(common_name, "Unknown")
                 
-                # Create a new dictionary for the prediction
                 new_pred = {
                     "score": pred["score"],
-                    "label": scientific_name,  # Original label
-                    "scientific_name": scientific_name,  # Updated scientific name
-                    "common_name": common_name  # Common name
+                    "scientific_name": scientific_name,
+                    "common_name": common_name
                 }
                 
                 filtered_predictions.append(new_pred)

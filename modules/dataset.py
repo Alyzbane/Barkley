@@ -1,13 +1,39 @@
 import os
+import json
 import streamlit as st
 
 from .utils import image_to_base64, load_json
 from .paths import STATIC_PATH_JSON, STATIC_PATH_IMAGE, STATIC_PATH_CSS
 
-@st.cache_data
+GIST_DS = 'https://gist.githubusercontent.com/Alyzbane/2fbbfdbc1da55e4952d501e8371de02f/raw/datasets'
+
 def load_datasets():
     """Load dataset information from JSON and cache it."""
-    return load_json(os.path.join(STATIC_PATH_JSON, 'datasets.json'))['items']
+    try:
+        data = load_json(url=GIST_DS) # Using the gist file to laod the datasets information
+        items = data['items']
+
+        scientific_to_common = {}
+        common_to_scientific = {}
+
+        for item in items:
+            scientific_name = item['meta']['scientific_name']
+            primary_common_name = item['title']  # Use title as common name
+            
+            # Store mappings
+            scientific_to_common[scientific_name] = primary_common_name
+            common_to_scientific[primary_common_name] = scientific_name
+
+        return items, scientific_to_common, common_to_scientific
+
+    except FileNotFoundError:
+        st.error("Dataset JSON file not found!")
+    except json.JSONDecodeError:
+        st.error("Invalid JSON format in dataset file!")
+    except KeyError:
+        st.error("JSON file missing 'items' key!")
+
+    return [], {}, {}
 
 @st.cache_data
 def get_image_path(path):
@@ -84,11 +110,10 @@ def datasets_tab():
     
     st.markdown("""
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <h1 style="font-family: Arial, sans-serif;">Datasets used in model training</h1>
                     <p style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5;">
                         Below, you will find a collection of datasets that were utilized during the training process of our model. 
                         Each dataset contains valuable information that contributed to the development and accuracy of the model.
-                        Click "Learn More" on any dataset to explore its details.
+                        Click "Learn More" on any dataset to explore.
                     </p>
                 </div>
                 """, unsafe_allow_html=True)

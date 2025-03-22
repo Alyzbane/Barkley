@@ -2,6 +2,7 @@ import json
 import os
 import io
 import base64
+import requests
 
 import streamlit as st
 
@@ -9,21 +10,25 @@ from PIL import Image
 from streamlit_image_select import image_select
 from .paths import STATIC_PATH_IMAGE, STATIC_PATH_CSS
 
-#################################################
-##             SVG files loader
-#################################################
-def load_static_svg(filename: str):
-    with open(os.path.join(STATIC_PATH_SVG, filename), 'r') as file:
-        svg_content = file.read()
-    return svg_content
+# #################################################
+# ##             SVG files loader
+# #################################################
+# def load_static_svg(filename: str):
+#     with open(os.path.join(STATIC_PATH_SVG, filename), 'r') as file:
+#         svg_content = file.read()
+#     return svg_content
 
 #################################################
 ##             Json loader
 #################################################
-def load_json(json_path):
-    """Load the tree species data from a JSON file."""
-    with open(json_path, 'r') as file:
-        return json.load(file)
+def load_json(url=None, path=None):
+    """Load the tree species data from a URL or sJSON file."""
+    if url is not None:
+        requests.get(url)
+        return requests.get(url).json()
+    else:
+        with open(path, 'r') as file:
+            return json.load(file)
 
 #################################################
 ##              Resizing Image
@@ -56,7 +61,7 @@ def select_image(path):
     import streamlit as st
     
     # Load the JSON data
-    tree_data = load_json(path)
+    tree_data = load_json(path=path)
 
     # Prepare the image paths and keys (names) for the selection
     image_paths = [os.path.join(STATIC_PATH_IMAGE, 'examples', tree["image_path"]) for tree in tree_data.values()]

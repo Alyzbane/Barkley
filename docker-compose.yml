@@ -1,0 +1,11 @@
+services:
+  streamlit-barkley:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    tty: true          # Enables TTY for interactive shell
+    stdin_open: true   # Keeps STDIN open for interactivity

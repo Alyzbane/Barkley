@@ -43,14 +43,6 @@ p, h1, h2, h3, h4 {
         display: none;
 } 
 
-[data-testid="stSidebarCollapsedControl"] {
-    display: none
-}
-
-[data-testid="stSidebar"] {
-    display: none;
-}
-
 [data-testid="stFileUploaderFile"] {
     display: none;
 }
