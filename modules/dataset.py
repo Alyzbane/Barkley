@@ -3,14 +3,14 @@ import json
 import streamlit as st
 
 from .utils import image_to_base64, load_json
-from .paths import STATIC_PATH_JSON, STATIC_PATH_IMAGE, STATIC_PATH_CSS
+from .paths import STATIC_PATH_IMAGE, STATIC_PATH_CSS
 
-GIST_DS = 'https://gist.githubusercontent.com/Alyzbane/2fbbfdbc1da55e4952d501e8371de02f/raw/datasets'
-
+@st.cache_data(ttl=60*60)  # Cache expires after 1 hour
 def load_datasets():
     """Load dataset information from JSON and cache it."""
+    gist_ds = 'https://gist.githubusercontent.com/Alyzbane/2fbbfdbc1da55e4952d501e8371de02f/raw/datasets'
     try:
-        data = load_json(url=GIST_DS) # Using the gist file to laod the datasets information
+        data = load_json(url=gist_ds) # Using the gist file to laod the datasets information
         items = data['items']
 
         scientific_to_common = {}
@@ -35,11 +35,6 @@ def load_datasets():
 
     return [], {}, {}
 
-@st.cache_data
-def get_image_path(path):
-    return os.path.join('static/images/datasets', path)
-
-@st.cache_data
 def view_datasets(dataset, confidence=None):
     col1, col2 = st.columns([2, 1])
     with col1:
@@ -102,40 +97,50 @@ def dialog_dataset_info(dataset, confidence=None):
 
     view_datasets(dataset, confidence)
 
+@st.cache_data(ttl=60*60, max_entries=1) 
+def prepare_dataset_cards(dataset_template):
+    """Process dataset items into card data."""
+    card_data_list = []
+    for dataset in dataset_template:
+        image_path = os.path.join('static/images/datasets', dataset['image']['path'])
+        with open(image_path, 'rb') as img_file:
+            image_data = image_to_base64(os.path.join('static/images/datasets', dataset['image']['path']))
+        card_data = {
+            'title': dataset['title'],
+            'image_data': image_data,
+            'dataset': dataset
+        }
+        card_data_list.append(card_data)
+    return card_data_list
 
 def datasets_tab():
     """Main function to display datasets in a grid layout."""
-    # Load cached datasets
     dataset_template = st.session_state.tree_datasets
-    
+    card_data_list = prepare_dataset_cards(dataset_template)
+
     st.markdown("""
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <p style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5;">
-                        Below, you will find a collection of datasets that were utilized during the training process of our model. 
-                        Each dataset contains valuable information that contributed to the development and accuracy of the model.
-                        Click "Learn More" on any dataset to explore.
-                    </p>
-                </div>
-                """, unsafe_allow_html=True)
+        <div style="text-align: center; margin-bottom: 20px;">
+            <p style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5;">
+                Below, you will find a collection of datasets that were utilized during the training process of our model. 
+                Each dataset contains valuable information that contributed to the development and accuracy of the model.
+                Click "Learn More" on any dataset to explore.
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
 
     with open(os.path.join(STATIC_PATH_CSS, "dataset.css")) as f:
-        st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-    # Create columns for dataset display
-    cols = st.columns(5)  # 5 columns for row
-
-    # Display dataset cards
-    for i, dataset in enumerate(dataset_template):
-        with cols[i % 5]:  # Distribute datasets across 5 columns
+    cols = st.columns(5)
+    for i, card_data in enumerate(card_data_list):
+        with cols[i % 5]:
             with st.container():
-                image_data = image_to_base64(os.path.join('static/images/datasets', dataset['image']['path']))
                 st.markdown(f"""
                 <div class="card">
-                    <img src="data:image/jpeg;base64, {image_data}" alt="{dataset['title']}">
-                    <h3>{dataset['title']}</h3>
+                    <img src="data:image/jpeg;base64, {card_data['image_data']}" alt="{card_data['title']}">
+                    <h3>{card_data['title']}</h3>
                 </div>
                 """, unsafe_allow_html=True)
-                
-                # Show dialog on button click
+
                 if st.button("Learn More", key=f"dialog_btn_{i}", use_container_width=True):
-                    dialog_dataset_info(dataset)
+                    dialog_dataset_info(card_data['dataset'])

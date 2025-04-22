@@ -5,9 +5,17 @@ from streamlit_option_menu import option_menu
 from modules.inference import inference_tab
 from modules.dataset import datasets_tab, load_datasets
 from modules.about import about_tab
-from modules.paths import STATIC_PATH_CSS
+from modules.paths import STATIC_PATH_CSS, STATIC_PATH_IMAGE
 
 from views.welcome import show_welcome_view
+
+# Set page configuration
+st.set_page_config(
+    page_title="Barkley",
+    initial_sidebar_state="collapsed",
+    page_icon="🌳",  
+    layout="wide"
+)
 
 def init_session_state():
     """Initialize session state variables."""
@@ -26,12 +34,10 @@ def init_session_state():
         st.session_state.welcome_shown = False
 
 def main():
-    # Set page configuration
-    st.set_page_config(
-        page_title="Barkley",
-        initial_sidebar_state="collapsed",
-        page_icon="🌳",  
-        layout="wide"
+    st.logo(
+        os.path.join(STATIC_PATH_IMAGE, "logos", "barkley-logo.png"),
+        size="large",
+        icon_image=os.path.join(STATIC_PATH_IMAGE, "logos", "wood-icon.png")
     )
 
      # Initialize session state

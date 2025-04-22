@@ -64,7 +64,7 @@ def show_results_view():
             st.switch_page('app.py')
 
 if __name__ == "__main__":
-        # Set the page configuration
+    # Set the page configuration
     st.set_page_config(
         page_title="Barkley - Results",
         initial_sidebar_state="collapsed",

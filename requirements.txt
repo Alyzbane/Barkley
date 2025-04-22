@@ -1,8 +1,9 @@
 Pillow==11.0.0
 Requests==2.32.3
-streamlit==1.41.1
+streamlit==1.44.1
 streamlit-image-select==0.6.0
 streamlit-option-menu==0.4.0
 torch==2.3.1
 torchvision==0.18.1
 transformers==4.44.2
+redis=5.2.1

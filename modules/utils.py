@@ -3,7 +3,7 @@ import os
 import io
 import base64
 import requests
-
+import hashlib
 import streamlit as st
 
 from PIL import Image
@@ -56,10 +56,7 @@ def select_image(path):
         Image selection.
 
         path - Path containing images
-    """
-
-    import streamlit as st
-    
+    """    
     # Load the JSON data
     tree_data = load_json(path=path)
 
@@ -85,12 +82,14 @@ def select_image(path):
 
         # Load the selected image
         selected_image = Image.open(selected_image_path).convert('RGB')
+        selected_image = resize_image(selected_image, (224, 224))  # Resize to 224x224
         return selected_image, selected_name  # Return the image and name
     return None, None
 
 #################################################
 ##        Image conversion to raw format
 #################################################
+@st.cache_data(ttl=60*60)
 def image_to_base64(image_path: str):
     """Convert an image file to base64 format."""
     if not os.path.exists(image_path):
@@ -109,6 +108,7 @@ def get_css(filename: str) -> str:
 #################################################
 ##        Getting the css and loading
 #################################################
+@st.cache_resource(ttl=3600)  # Cache expires after 1 hour
 def load_css(filename: str):
     css_code = get_css(filename)
     st.markdown(css_code, unsafe_allow_html=True)
@@ -120,14 +120,28 @@ def load_css(filename: str):
 def __process_uploaded_file(uploaded_file):
     """Process uploaded file, camera input, or image from advanced camera method"""
     if uploaded_file is not None:
-        if hasattr(uploaded_file, 'read'):
-            image = convert_to_jpeg(Image.open(uploaded_file).convert('RGB'))
-        elif isinstance(uploaded_file, Image.Image):
-            image = uploaded_file
-        else:
-            st.error("Unsupported image format")
-            return None
-
-        image = resize_image(image, (224, 224))
+        image = Image.open(uploaded_file).convert("RGB")
+        image = resize_image(image, (224, 224))  # Resize to 224x224
         return image
     return None
+
+###################################################
+##        Detect tree or trunk in caption        ##
+###################################################
+def detect_caption(caption: str) -> bool:
+    keywords = ['bark',
+                'tree bark',
+                'tree trunk',
+                'trunk',
+                'tree',]
+    caption_lower = caption.lower()
+    return any(keyword in caption_lower for keyword in keywords)
+
+###################################################
+##       Hash image into MD% for cache           ##
+###################################################
+def hash_image(image):
+    buffer = io.BytesIO()
+    image.save(buffer, format="PNG")
+    img_bytes = buffer.getvalue()
+    return hashlib.md5(img_bytes).hexdigest()

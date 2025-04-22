@@ -1,55 +1,48 @@
 import os
-
 import streamlit as st
+from  .utils import image_to_base64, load_css
 
 from modules.paths import STATIC_PATH_IMAGE
-from modules.utils import image_to_base64
-from modules.paths import STATIC_PATH_CSS
 
-@st.cache_data
+@st.cache_data(ttl=60*60)
 def team_tab():
     team_members = [
         {
             "name": "Prince Daniel D. Mampusti",
             "role": "Full Stack Developer",
-            "image": "https://avatars.githubusercontent.com/u/75820221?s=400&u=55cf39b5f2cbfc565370a14303c6c12620ca6b6e&v=4", 
-            "github": "https://github.com/alyzbane" 
+            "image": os.path.join(STATIC_PATH_IMAGE, 'team', 'img-mampusti.jpg'),
+            "github": "https://github.com/alyzbane",
         },
         {
             "name": "Dhan Eldrin Mabilangan",
             "role": "Data Analyst",
-            "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png?20200912122019", 
-            "github": "https://github.com/dhan-eldrin"  
+            "image": os.path.join(STATIC_PATH_IMAGE, 'team', 'img-mabilangan.jpg'),
+            "github": "https://github.com" 
         },
         {
             "name": "Reymer Jr. Unciano",
             "role": "Data Curator",
-            "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png?20200912122019",  
-            "github": "https://github.com/reymer-jr"  
+            "image": os.path.join(STATIC_PATH_IMAGE, 'team', 'img-unciano.jpg'),
+            "github": "https://github.com"
         },
         {
             "name": "Tobias Alren",
             "role": "Data Collector",
-            "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png?20200912122019",  
-            "github": "https://github.com/tobias-alren" 
+            "image": os.path.join(STATIC_PATH_IMAGE, 'team', 'img-tobias.jpg'),
+            "github": "https://github.com"
         }
     ]
 
-    st.markdown(f"""
-                <div>
-                    <h1 style="font-family: Arial, sans-serif;">Meet the team</h1>
-                </div>
-                """, unsafe_allow_html=True)
+    st.markdown("""
+        <div>
+            <h1 style="font-family: Arial, sans-serif;">Meet the team</h1>
+        </div>
+    """, unsafe_allow_html=True)
 
     cols = st.columns(len(team_members))
+    load_css("card.css")
 
-    with open(os.path.join(STATIC_PATH_CSS, "card.css")) as f:
-        st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
-
-#    theme = st_theme() # buggy returning None not subscriptable
-#    base_theme = theme.get("base", "default_value")
     base_theme = "light"
-
     if base_theme == "light":
         github_icon = image_to_base64(os.path.join(STATIC_PATH_IMAGE, 'logos', 'github-mark.png'))
     else:
@@ -57,18 +50,20 @@ def team_tab():
 
     for idx, member in enumerate(team_members):
         with cols[idx]:
+            img_base64 = image_to_base64(member["image"])
             st.markdown(f"""
             <div class="card" style="height: 350px; margin-bottom: 0.5em;">
-                <img src="{member['image']}" alt="{member['name']}" width="100" height="100" style="align-self: center;">
+                <img src="data:image/jpeg;base64,{img_base64}" 
+                     alt="{member['name']}" 
+                     width="100" height="100" 
+                     style="display: block; margin-left: auto; margin-right: auto; border-radius: 50%;">
                 <h3 style="color: var(--text-color); text-align: center;">{member['name']}</h3>
                 <a href="{member['github']}" target="_blank" style="display: block; text-align: center; margin-bottom: 10px;">
                     <img src="data:image/jpeg;base64,{github_icon}" alt="GitHub" width="30" height="30" />
                 </a>
-                <p style="color: ; text-align: center;">{member['role']}</p>
+                <p style="text-align: center;">{member['role']}</p>
             </div>
             """, unsafe_allow_html=True)
 
 def about_tab():
-    # Model Performane Overview?
-    # Charts
     team_tab()
