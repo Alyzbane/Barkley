@@ -24,7 +24,7 @@ HF_MODELS = {
 }
 DEVICE = "cpu" # streamlit community cloud is running on CPU
 DTYPE = torch.float32
-REDIS_TTL = 5*60*60
+REDIS_TTL = 24*60*60
 redis_conn = get_redis_connection()
 
 # ======================================
