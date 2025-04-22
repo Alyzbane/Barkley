@@ -1,9 +1,6 @@
 # Or, if you only want to ignore images within static
 #static/images/
 
-# Ignore model files
-models/
-
 # Ignore secret files
 .streamlit/secrets.toml
 
