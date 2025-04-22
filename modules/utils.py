@@ -35,8 +35,8 @@ def load_json(url=None, path=None):
 #################################################
 def resize_image(image, size):
     """Resize image while maintaining aspect ratio"""
-    image.resize(size, Image.LANCZOS)
-    return image
+    return image.resize(size, Image.LANCZOS)
+
 #################################################
 ##             Image conversion
 #################################################
@@ -112,7 +112,6 @@ def get_css(filename: str) -> str:
 def load_css(filename: str):
     css_code = get_css(filename)
     st.markdown(css_code, unsafe_allow_html=True)
-
 
 ######################################################
 ##   Processing jpeg, jpg, png, etc. image files    ##
