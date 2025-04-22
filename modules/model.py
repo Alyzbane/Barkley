@@ -7,6 +7,8 @@ from transformers.dynamic_module_utils import get_imports
 from transformers import (
     AutoImageProcessor,
     AutoModelForImageClassification,
+    BlipProcessor,
+    BlipForConditionalGeneration,
     pipeline,
     AutoProcessor,
     AutoModelForCausalLM,
@@ -28,76 +30,40 @@ redis_conn = get_redis_connection()
 # ======================================
 # Deteector Model Loading and Inference 
 # ======================================
-# workaround for unnecessary flash_attn requirement
-def fixed_get_imports(filename: str | os.PathLike) -> list[str]:
-    if not str(filename).endswith("modeling_florence2.py"):
-        return get_imports(filename)
-    imports = get_imports(filename)
-    imports.remove("flash_attn")
-    return imports
-
-# Set the Florence-2 model as detector model
 @st.cache_resource(show_spinner=False)
-def load_detector_model():
-    florence2_model = "models/florence-2-base"
+def load_captioning_pipeline():
+    """Load the ViT-GPT2 image captioning pipeline."""
     try:
-        model_id = florence2_model
-        if not model_id:
-            raise ValueError(f"Model '{model_id}' not found.")
-
-        processor = AutoProcessor.from_pretrained(model_id, trust_remote_code=True, local_files_only=True)
-        with patch("transformers.dynamic_module_utils.get_imports", fixed_get_imports): # workaround for unnecessary flash_attn requirement
-            model = AutoModelForCausalLM.from_pretrained(model_id, attn_implementation="sdpa", torch_dtype=DTYPE, trust_remote_code=True, local_files_only=True)
-
-        return processor, model
+        return pipeline("image-to-text", model="models/vit-gpt2-image-captioning", device=DEVICE)
     except Exception as e:
-        raise RuntimeError(f"Error loading model: {e}")
+        raise RuntimeError(f"Error loading image captioning pipeline: {e}")
+    
+def run_captioning_inference(image_path):
+    """Run the ViT-GPT2 pipeline for image captioning."""
+    captioning_pipeline = load_captioning_pipeline()
 
-# Run detection model via caption generation
-def run_florence_inference(task_prompt, text_input=None):
+    # Generate caption
+    result = captioning_pipeline(image_path)
+    if result and "generated_text" in result[0]:
+        return result[0]["generated_text"].strip()
+    else:
+        raise ValueError("Failed to generate caption.")
+    
+def run_captioning():
+    """Run the captioning pipeline with caching."""
     image = st.session_state.image
-    processor, model = load_detector_model()
-    
-    prompt = task_prompt if text_input is None else task_prompt + text_input
-    inputs = processor(text=prompt, images=image, return_tensors="pt").to(DEVICE, DTYPE)
-    
-    generated_ids = model.generate(
-        input_ids=inputs["input_ids"],
-        pixel_values=inputs["pixel_values"],
-        max_new_tokens=1024,
-        early_stopping=False,
-        do_sample=False,
-        num_beams=3,
-    )
-    
-    generated_text = processor.batch_decode(generated_ids, skip_special_tokens=False)[0]
-    
-    return generated_text, image.size  # Return raw text and image size for later parsing
+    image_hash = hash_image(image)
+    cache_key = f"captioning:{image_hash}"
 
-# @st.cache_data(ttl=600, max_entries=50, show_spinner=False)
-def parse_florence_output(generated_text, task_prompt, image_size):
-    processor, _ = load_detector_model()
-    
-    parsed_answer = processor.post_process_generation(
-        generated_text,
-        task=task_prompt,
-        image_size=image_size
-    )
-    return parsed_answer
+    # Check cache
+    cached_caption = redis_conn.get_json(cache_key)
+    if cached_caption:
+        return cached_caption
 
-def run_florence(task_prompt, text_input=None):
-    image_hash = hash_image(st.session_state.image)
-    prompt = task_prompt if text_input is None else task_prompt + text_input
-    cache_key = f"florence:{image_hash}:{prompt}"
-
-    cached = redis_conn.get_json(cache_key)
-    if cached:
-        return cached
-
-    generated_text, image_size = run_florence_inference(task_prompt, text_input)
-    parsed = parse_florence_output(generated_text, task_prompt, image_size)
-    redis_conn.set_json(cache_key, parsed, ttl=REDIS_TTL)
-    return parsed
+    # Generate caption and cache it
+    caption = run_captioning_inference(image)
+    redis_conn.set_json(cache_key, caption, ttl=REDIS_TTL)
+    return caption
 
 # ================================
 # Model Loading and Classification

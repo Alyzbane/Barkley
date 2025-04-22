@@ -5,7 +5,7 @@ from io import BytesIO
 
 import streamlit as st
 
-from .model import classify_image, HF_MODELS, run_florence
+from .model import classify_image, HF_MODELS, run_captioning
 from .utils import resize_image, select_image, __process_uploaded_file, detect_caption
 from .paths import STATIC_PATH_IMAGE, STATIC_PATH_JSON
 from views.guide import display_guidelines 
@@ -121,7 +121,6 @@ def display_image_and_classify(col2, placeholder_image):
         with col2.container(border=True):
             st.image(placeholder_image, caption='Upload an Image', output_format='JPEG', use_container_width=True)
 
-
 @st.fragment()
 def handle_detection():
     # Create a progress bar for the entire process
@@ -129,15 +128,14 @@ def handle_detection():
     
     # Detection phase (25% of the process)
     progress_bar.progress(10, text="Detecting tree bark...")
-    dcaptions = run_florence('<CAPTION>')
+    caption_texts = run_captioning()
     progress_bar.progress(30, text="Detecting tree bark...")
-    caption_texts = dcaptions.get('<CAPTION>', '')
-    progress_bar.progress(60, text="Detecting tree bark...")
     if not detect_caption(caption_texts):
         progress_bar.progress(100, text="Detection failed")
         st.session_state.show_error_dialog = True
         st.session_state.classify_enabled = False
         st.rerun()
+    progress_bar.progress(60, text="Detecting tree bark...")
     return progress_bar
 
 def handle_classification():
