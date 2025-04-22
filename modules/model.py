@@ -22,6 +22,7 @@ HF_MODELS = {
 }
 DEVICE = "cpu" # streamlit community cloud is running on CPU
 DTYPE = torch.float32
+REDIS_TTL = 5*60*60
 redis_conn = get_redis_connection()
 
 # ======================================
@@ -38,15 +39,15 @@ def fixed_get_imports(filename: str | os.PathLike) -> list[str]:
 # Set the Florence-2 model as detector model
 @st.cache_resource(show_spinner=False)
 def load_detector_model():
-    florence2_model = "microsoft/florence-2-base"
+    florence2_model = "models/florence-2-base"
     try:
         model_id = florence2_model
         if not model_id:
             raise ValueError(f"Model '{model_id}' not found.")
 
-        processor = AutoProcessor.from_pretrained(model_id, trust_remote_code=True)
+        processor = AutoProcessor.from_pretrained(model_id, trust_remote_code=True, local_files_only=True)
         with patch("transformers.dynamic_module_utils.get_imports", fixed_get_imports): # workaround for unnecessary flash_attn requirement
-            model = AutoModelForCausalLM.from_pretrained(model_id, attn_implementation="sdpa", torch_dtype=DTYPE,trust_remote_code=True)
+            model = AutoModelForCausalLM.from_pretrained(model_id, attn_implementation="sdpa", torch_dtype=DTYPE, trust_remote_code=True, local_files_only=True)
 
         return processor, model
     except Exception as e:
@@ -95,7 +96,7 @@ def run_florence(task_prompt, text_input=None):
 
     generated_text, image_size = run_florence_inference(task_prompt, text_input)
     parsed = parse_florence_output(generated_text, task_prompt, image_size)
-    redis_conn.set_json(cache_key, parsed, ttl=600)
+    redis_conn.set_json(cache_key, parsed, ttl=REDIS_TTL)
     return parsed
 
 # ================================
@@ -109,8 +110,8 @@ def load_model(model_name):
         if not model_id:
             raise ValueError(f"Model '{model_name}' not found.")
 
-        feature_extractor = AutoImageProcessor.from_pretrained(model_id)
-        model = AutoModelForImageClassification.from_pretrained(model_id)
+        feature_extractor = AutoImageProcessor.from_pretrained(model_id, local_files_only=True)
+        model = AutoModelForImageClassification.from_pretrained(model_id, local_files_only=True)
 
         # Create and return the classification pipeline
         classifier = pipeline(
@@ -155,7 +156,7 @@ def classify_image(model_name):
         cached_predictions = redis_conn.get_json(cache_key)
         if not cached_predictions:
             predictions = classify_image_inference(model_name, top_k=13)  # max K
-            redis_conn.set_json(cache_key, predictions, ttl=600)
+            redis_conn.set_json(cache_key, predictions, ttl=REDIS_TTL)
         else:
             predictions = cached_predictions
 
