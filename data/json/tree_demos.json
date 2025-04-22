@@ -1,17 +1,3 @@
-{
-    "Ilang-ilang": {
-        "image_path": "ILANG-ILANG_01.jpg"
-    },
-    "Mango": {
-        "image_path": "MANGO_03.jpg"
-    },
-    "Narra": {
-        "image_path": "NARRA_02.jpg"
-    },
-    "Palm": {
-        "image_path": "PALM_04.jpg"
-    },
-    "Trumpet": {
-        "image_path": "TRUMPET_01.jpg"
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:453e56a23bd83694e2865134218e744c0812f3f6b1ea30802b22c0d56053d189
+size 311
