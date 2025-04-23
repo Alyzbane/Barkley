@@ -23,13 +23,13 @@ def team_tab():
             "name": "Reymer Jr. Unciano",
             "role": "Data Curator",
             "image": os.path.join(STATIC_PATH_IMAGE, 'team', 'img-unciano.jpg'),
-            "github": "https://github.com"
+            "github": "https://github.com/reymerjr"
         },
         {
             "name": "Tobias Alren",
             "role": "Data Collector",
             "image": os.path.join(STATIC_PATH_IMAGE, 'team', 'img-tobias.jpg'),
-            "github": "https://github.com"
+            "github": "https://github.com/CyberNinjago"
         }
     ]
 

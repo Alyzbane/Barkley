@@ -17,14 +17,14 @@ import streamlit as st
 
 # Constants
 HF_MODELS = {
-    "ResNet-50": "models/resnet-50",
-    "Swin B/P4-W7": "models/swin",
-    "ViT B/P16": "models/vit",
-    "ConvNeXT": "models/convnext",
+    "ResNet-50": "alyzbane/2025-02-05-21-58-41-resnet-50",
+    "Swin B/P4-W7": "alyzbane/2025-02-05-15-01-55-swin-base-patch4-window7-224",
+    "ViT B/P16": "alyzbane/2025-02-05-14-22-36-vit-base-patch16-224",
+    "ConvNeXT": "alyzbane/2025-02-10-08-48-20-convnextv2-tiny-1k-224",
 }
 DEVICE = "cpu" # streamlit community cloud is running on CPU
 DTYPE = torch.float32
-REDIS_TTL = 24*60*60
+REDIS_TTL = 12*60*60
 redis_conn = get_redis_connection()
 
 # ======================================
@@ -34,7 +34,7 @@ redis_conn = get_redis_connection()
 def load_captioning_pipeline():
     """Load the ViT-GPT2 image captioning pipeline."""
     try:
-        return pipeline("image-to-text", model="models/vit-gpt2-image-captioning", device=DEVICE)
+        return pipeline("image-to-text", model="nlpconnect/vit-gpt2-image-captioning", device=DEVICE)
     except Exception as e:
         raise RuntimeError(f"Error loading image captioning pipeline: {e}")
     
