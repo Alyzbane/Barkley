@@ -34,11 +34,9 @@ def init_session_state():
         st.session_state.welcome_shown = False
 
 def main():
-    st.logo(
-        os.path.join(STATIC_PATH_IMAGE, "logos", "barkley-logo.png"),
-        size="large",
-        icon_image=os.path.join(STATIC_PATH_IMAGE, "logos", "wood-icon.png")
-    )
+    st.logo(os.path.join(STATIC_PATH_IMAGE, "logos", "barkley-logo.png"),
+            size="large",
+            icon_image=os.path.join(STATIC_PATH_IMAGE, "logos", "wood-icon.png"))
 
      # Initialize session state
     init_session_state()

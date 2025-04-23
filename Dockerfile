@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Command to keep container running
-CMD ["streamlit", "run", "app.py"]
+CMD ["bash"]

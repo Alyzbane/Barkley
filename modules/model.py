@@ -76,8 +76,8 @@ def load_model(model_name):
         if not model_id:
             raise ValueError(f"Model '{model_name}' not found.")
 
-        feature_extractor = AutoImageProcessor.from_pretrained(model_id, local_files_only=True)
-        model = AutoModelForImageClassification.from_pretrained(model_id, local_files_only=True)
+        feature_extractor = AutoImageProcessor.from_pretrained(model_id)
+        model = AutoModelForImageClassification.from_pretrained(model_id)
 
         # Create and return the classification pipeline
         classifier = pipeline(
