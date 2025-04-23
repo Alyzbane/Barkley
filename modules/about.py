@@ -17,7 +17,7 @@ def team_tab():
             "name": "Dhan Eldrin Mabilangan",
             "role": "Data Analyst",
             "image": os.path.join(STATIC_PATH_IMAGE, 'team', 'img-mabilangan.jpg'),
-            "github": "https://github.com" 
+            "github": "https://github.com/DukeSNS" 
         },
         {
             "name": "Reymer Jr. Unciano",

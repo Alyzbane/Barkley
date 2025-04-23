@@ -37,7 +37,7 @@ def handle_advanced_settings():
     )
     top_k = st.slider(
         "Top Predictions",
-        1, NUM_CLASSES, 1,
+        1, NUM_CLASSES, 5,
         help="Choose the number of top predictions to display."
     )
 
@@ -45,7 +45,7 @@ def handle_advanced_settings():
         "Confidence Threshold", 
         min_value=0, 
         max_value=100, 
-        value=50,
+        value=0,
         step=1,
         help="Higher values mean the model will return more confident predictions."
     )
