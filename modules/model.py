@@ -7,11 +7,10 @@ from transformers.dynamic_module_utils import get_imports
 from transformers import (
     AutoImageProcessor,
     AutoModelForImageClassification,
-    BlipProcessor,
-    BlipForConditionalGeneration,
     pipeline,
-    AutoProcessor,
-    AutoModelForCausalLM,
+    VisionEncoderDecoderModel,
+    ViTImageProcessor,
+    PreTrainedTokenizerFast,
 )
 import streamlit as st
 
@@ -31,23 +30,48 @@ redis_conn = get_redis_connection()
 # Deteector Model Loading and Inference 
 # ======================================
 @st.cache_resource(show_spinner=False)
-def load_captioning_pipeline():
-    """Load the ViT-GPT2 image captioning pipeline."""
+def load_captioning_components():
+    """Load and cache the vision-encoder-decoder model, feature extractor, and tokenizer."""
     try:
-        return pipeline("image-to-text", model="nlpconnect/vit-gpt2-image-captioning", device=DEVICE)
-    except Exception as e:
-        raise RuntimeError(f"Error loading image captioning pipeline: {e}")
-    
-def run_captioning_inference(image_path):
-    """Run the ViT-GPT2 pipeline for image captioning."""
-    captioning_pipeline = load_captioning_pipeline()
+        # Load the pretrained image-captioning model
+        model = VisionEncoderDecoderModel.from_pretrained(
+            "nlpconnect/vit-gpt2-image-captioning"
+        )
+        model.to(DEVICE)
 
-    # Generate caption
-    result = captioning_pipeline(image_path)
-    if result and "generated_text" in result[0]:
-        return result[0]["generated_text"].strip()
-    else:
-        raise ValueError("Failed to generate caption.")
+        # Custom ViT feature extractor
+        feature_extractor = ViTImageProcessor.from_pretrained(
+            "google/vit-base-patch16-224-in21k"
+        )
+
+        # Custom GPT2 tokenizer
+        tokenizer = PreTrainedTokenizerFast.from_pretrained("distilgpt2")
+
+        return model, feature_extractor, tokenizer
+    except Exception as e:
+        raise RuntimeError(f"Error loading captioning components: {e}")
+    
+def run_captioning_inference(image):
+    model, feature_extractor, tokenizer = load_captioning_components()
+
+    pixel_values = feature_extractor(images=image, return_tensors="pt").pixel_values
+    pixel_values = pixel_values.to(DEVICE, dtype=DTYPE)
+
+    generated_ids = model.generate(
+        pixel_values,
+        num_beams=5,
+        num_return_sequences=3,
+        max_length=64,
+        early_stopping=True,
+    )
+
+    captions = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
+    captions = [cap.strip() for cap in captions]
+
+    # Join into a single string
+    caption_text = " ".join(captions)
+    return caption_text
+
     
 def run_captioning():
     """Run the captioning pipeline with caching."""
@@ -138,7 +162,3 @@ def classify_image(model_name):
 
     except Exception as e:
         return {"error": str(e)}
-
-
-
-

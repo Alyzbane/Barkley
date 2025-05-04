@@ -128,11 +128,7 @@ def __process_uploaded_file(uploaded_file):
 ##        Detect tree or trunk in caption        ##
 ###################################################
 def detect_caption(caption: str) -> bool:
-    keywords = ['bark',
-                'tree bark',
-                'tree trunk',
-                'trunk',
-                'tree',]
+    keywords = {"bark", "tree", "trunk", "tree bark", "tree trunk"}
     caption_lower = caption.lower()
     return any(keyword in caption_lower for keyword in keywords)
 
