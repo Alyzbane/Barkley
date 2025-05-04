@@ -15,11 +15,10 @@ from transformers import (
 )
 import streamlit as st
 
-# Constants
 HF_MODELS = {
+    "ViT B/P16": "alyzbane/2025-02-05-14-22-36-vit-base-patch16-224",
     "ResNet-50": "alyzbane/2025-02-05-21-58-41-resnet-50",
     "Swin B/P4-W7": "alyzbane/2025-02-05-15-01-55-swin-base-patch4-window7-224",
-    "ViT B/P16": "alyzbane/2025-02-05-14-22-36-vit-base-patch16-224",
     "ConvNeXT": "alyzbane/2025-02-10-08-48-20-convnextv2-tiny-1k-224",
 }
 DEVICE = "cpu" # streamlit community cloud is running on CPU
