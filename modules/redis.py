@@ -71,6 +71,18 @@ class RedisConnection(BaseConnection[redis.Redis]):
             # Log the error
             st.error(f"Redis set_json error: {str(e)}")
             return False
+    def delete(self, key):
+        """Delete a specific key from Redis."""
+        try:
+            return self._instance.delete(key)
+        except redis.exceptions.ConnectionError:
+            # Try to reconnect
+            self.reset()
+            return self._instance.delete(key)
+        except Exception as e:
+            # Log the error
+            st.error(f"Redis delete error: {str(e)}")
+            return False
 
 @st.cache_resource
 def get_redis_connection():
