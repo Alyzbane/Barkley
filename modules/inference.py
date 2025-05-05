@@ -106,9 +106,8 @@ def display_image_and_classify(col2, placeholder_image):
     """Display uploaded image and handle classification"""
     if 'image' in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        rzi = resize_image(image, (224, 224))
         with col2.container(border=True):
-            st.image(rzi, caption='Uploaded/Captured Image', use_container_width=True)
+            st.image(image, caption='Uploaded/Captured Image', use_container_width=True)
             if "classify_enabled" not in st.session_state:
                 st.session_state.classify_enabled = False
             if not st.session_state.classify_enabled:
